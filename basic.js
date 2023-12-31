@@ -2,15 +2,41 @@ const slider=document.querySelector("#sizeslider");
 const sliderValue=document.querySelector("#slidervalue");
 const square=document.querySelector(".square");//square
 let squareDimension=0;
-for (let j = 0; j<16; j++) {
+let pen="black";
+let isMouse=false;
+let colors=["violet","indigo","orange","blue","green","yellow","red"];
+function changeColor(){
+    if(pen=="black"){
+        return "black"
+    }
+    else if(pen=="rainbow"){
+        let randomNum= Math.floor(Math.random()*7);
+        return colors[randomNum];
+    }
+    else if(pen=="eraser"){
+        return "white";
+    }
+}
+for (let j = 1; j<=16; j++) {
     let rowDiv=document.createElement("div");
     rowDiv.classList="row"+j;
     square.appendChild(rowDiv);
     rowDiv.style.cssText="display:flex;flexDirection:row;"
-    for(let i=0;i<16;i++){
+    for(let i=1;i<=16;i++){
         const newDiv=document.createElement("div");
         newDiv.classList="squarediv";
         newDiv.style.cssText="width:41.25px;height:41.25px;background:white;";
+        newDiv.addEventListener('mousedown',()=>{
+            isMouse=true;
+        })
+        newDiv.addEventListener('mouseup',()=>{
+            isMouse=false;
+        })
+        newDiv.addEventListener('mousemove',()=>{
+            if(isMouse==true){
+                newDiv.style.background=changeColor();
+            }
+        })
         rowDiv.appendChild(newDiv);
     }
 }
@@ -26,6 +52,17 @@ function changeSquare(value){
             const newDiv=document.createElement("div");
             newDiv.classList="squarediv";
             newDiv.style.cssText="width:"+squareDimensionPx+";height:"+squareDimensionPx+";background:white;";
+            newDiv.addEventListener('mousedown',()=>{
+                isMouse=true;
+            })
+            newDiv.addEventListener('mouseup',()=>{
+                isMouse=false;
+            })
+            newDiv.addEventListener('mousemove',()=>{
+                if(isMouse==true){
+                    newDiv.style.background=changeColor();
+                }
+            })
             rowDiv.appendChild(newDiv);
         }
     }
@@ -57,7 +94,7 @@ const black=document.querySelector("#black");
 const rainbow=document.querySelector("#rainbow");
 const eraser=document.querySelector("#eraser");
 const clear=document.querySelector("#clear");
-let pen="black";
+
 
 black.onclick=()=>{
     clearButton("black");
@@ -77,5 +114,9 @@ eraser.onclick=()=>{
     eraser.style.color="white";
     pen="eraser";
 }
-
-
+clear.onclick=()=>{
+    const clearPad=document.querySelectorAll(".squarediv");
+    for(let i=0;i<clearPad.length;i++){
+        clearPad[i].style.background="white";
+    }
+}

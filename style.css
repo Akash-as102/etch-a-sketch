@@ -61,11 +61,16 @@ input[type='range'] {
     margin-top: 50px;
 
   }
-  #clear:active{
+  #clear{
+    transition: background-color 0.2s ease;
+  }
+  #clear:hover{
     background-color: black;
     color: white;
+    
   }
   #black{
     background-color: black;
     color:white;
+
   }
